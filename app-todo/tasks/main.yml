@@ -1,0 +1,35 @@
+---
+# tasks file for app-todo
+- name: install other dependencies required by the application
+  package:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  with_items:
+    - unzip
+    - npm
+- name: Unpack the application code
+  unarchive:
+    src: app.zip
+    dest: "{{ app_dir }}"
+- name: Create application db config
+  template:
+    src: mysql.js.j2
+    dest: "{{ app_dir }}/src/persistence/mysql.js"
+- name: Create application config
+  template:
+    src: index.js.j2
+    dest: "{{ app_dir }}/src/index.js"
+- name: copy package.json
+  copy:
+    src: package.json
+    dest: /root/package.json
+- name:  dependencies
+  npm:
+     path: /root/package.json
+- name: Start the application
+  command:
+    chdir: "{{ app_dir }}/src/"
+    cmd: node server
+  async: 1000
+  poll: 0

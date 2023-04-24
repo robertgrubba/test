@@ -1,0 +1,17 @@
+[web]
+35.177.208.114
+[db]
+35.177.208.114
+[all:vars]
+app_dir = /var/www/html
+app_port=3000
+ansible_user=ubuntu
+ansible_become=true
+ansible_become_method=sudo
+db_host=localhost
+db_user=todoapp
+db_password=t0dO@pp
+db_root_password=Som3reallyGo0dPa5sN0t3asyt0cr2k
+db_name=todoapp
+db_port=3306
+

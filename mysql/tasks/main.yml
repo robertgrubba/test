@@ -1,0 +1,41 @@
+---
+# tasks file for mysql
+- name: install MariaDB server
+  apt:
+    name: mariadb-server
+    state: present
+    update_cache: true
+  with_items:
+    - mariadb-server
+    - python3-mysqldb
+    - python3-pymysql
+- name: start MariaDB
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+- name: create db
+  raw: mysql -e "create database {{ db_name }} character set utf8 collate utf8_general_ci"
+  ignore_errors: true
+    #- name: create database
+    #  mysql_db:
+    #    name: "{{ db_name }}"
+    #    state: present
+    #    login_user: root
+    #    login_password: ""
+- name: configure mysql user
+  raw: mysql -e "grant all privileges on {{ db_name }}.* to {{ db_user }}@{{ item }} identified by '{{ db_password }}'; flush privileges;"
+  with_items:
+    - "{{ groups['web'] }}"
+    - "localhost"
+    
+      #- name: configure mysql user for app
+      #  mysql_user:
+      #    name: "{{ db_user }}"
+      #    password: "{{ db_password }}"
+      #    priv: "{{ db_name }}.*:ALL"
+      #    host: "{{ item }}"
+      #    state: present
+      #  with_items:
+      #    - "{{ groups['web'] }}"
+      #    - "localhost"

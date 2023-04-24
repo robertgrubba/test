@@ -1,0 +1,7 @@
+---
+- hosts: db
+  roles:
+    - mysql
+- hosts: web
+  roles:
+    - app-todo
