@@ -23,10 +23,10 @@
 - name: copy package.json
   copy:
     src: package.json
-    dest: /root/package.json
+    dest: /root/package/
 - name:  dependencies
   npm:
-     path: /root/package.json
+     path: /root/package
 - name: Start the application
   command:
     chdir: "{{ app_dir }}/src/"
