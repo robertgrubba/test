@@ -8,6 +8,11 @@
   with_items:
     - unzip
     - npm
+- name: create directory for app
+  file:
+    path: "{{ app_dir }}"
+    state: directory
+    recurse: true
 - name: Unpack the application code
   unarchive:
     src: app.zip
@@ -15,21 +20,17 @@
 - name: Create application db config
   template:
     src: mysql.js.j2
-    dest: "{{ app_dir }}/src/persistence/mysql.js"
+    dest: "{{ app_dir }}/app/src/persistence/mysql.js"
 - name: Create application config
   template:
     src: index.js.j2
-    dest: "{{ app_dir }}/src/index.js"
-- name: copy package.json
-  copy:
-    src: package.json
-    dest: /root/package/
+    dest: "{{ app_dir }}/app/src/index.js"
 - name:  dependencies
   npm:
-     path: /root/package
+     path: "{{ app_dir }}/app"
 - name: Start the application
   command:
-    chdir: "{{ app_dir }}/src/"
-    cmd: node server
+    chdir: "{{ app_dir }}/app/src/"
+    cmd: "node {{ app_dir}}/app/src/index.js"
   async: 1000
   poll: 0

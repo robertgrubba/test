@@ -17,7 +17,7 @@ app.delete('/items/:id', deleteItem);
 
 db.init().then(() => {
 {% endraw %}
-    app.listen({{ app_port }}, () => console.log('Listening on port 3000'));
+    app.listen({{ app_port }}, () => console.log('Listening on port {{ app_port }}'));
 {% raw %}
 }).catch((err) => {
     console.error(err);

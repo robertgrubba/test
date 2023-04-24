@@ -3,7 +3,7 @@
 [db]
 35.177.208.114
 [all:vars]
-app_dir = /var/www/html
+app_dir = /data
 app_port=3000
 ansible_user=ubuntu
 ansible_become=true

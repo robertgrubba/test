@@ -24,7 +24,9 @@ async function init() {
 
     await waitPort({ 
         host, 
+{% endraw %}
         port: {{ db_port }},
+{% raw %}
         timeout: 10000,
         waitForDns: true,
     });
