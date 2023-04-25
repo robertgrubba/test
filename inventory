@@ -8,10 +8,14 @@ app_port=3000
 ansible_user=ubuntu
 ansible_become=true
 ansible_become_method=sudo
+# mysql database parameters
 db_host=localhost
 db_user=todoapp
 db_password=t0dOapp
-db_root_password=Som3reallyGo0dPa5sN0t3asyt0cr2k
 db_name=todoapp
 db_port=3306
-
+# for future securing of mysql instance
+db_root_password=Som3reallyGo0dPa5sN0t3asyt0cr2k
+# for nodejs running as non root
+nodejs_user=nodejs
+nodejs_group=nodejs

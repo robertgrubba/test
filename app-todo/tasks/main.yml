@@ -8,19 +8,35 @@
   with_items:
     - unzip
     - npm
+- name: create group for nodejs
+  group:
+    name: "{{ nodejs_group }}"
+    state: present
+- name: create user for nodejs
+  user:
+    name: "{{ nodejs_user }}"
+    state: present
 - name: create directory for app
   file:
     path: "{{ app_dir }}"
     state: directory
     recurse: true
+    owner: "{{ nodejs_user }}"
+    group: "{{ nodejs_group }}"
 - name: Unpack the application code
   unarchive:
     src: app.zip
     dest: "{{ app_dir }}"
+    owner: "{{ nodejs_user }}"
+    group: "{{ nodejs_group }}"
+  register: app
 - name: Create application config
   template:
     src: index.js.j2
     dest: "{{ app_dir }}/app/src/index.js"
+    owner: "{{ nodejs_user }}"
+    group: "{{ nodejs_group }}"
+  register: config
 - name:  dependencies
   npm:
      path: "{{ app_dir }}/app"
@@ -38,4 +54,4 @@
     state: restarted
     daemon_reload: true
     enabled: true
-  when: servicefile.changed
+  when: servicefile.changed or config.changed or app.changed

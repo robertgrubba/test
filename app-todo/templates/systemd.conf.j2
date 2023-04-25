@@ -5,8 +5,8 @@ Description=Nodejs sample docker application
 ExecStart=/usr/bin/node {{ app_dir}}/app/src/index.js
 Restart=on-failure
 RestartSec=5s
-User=root
-Group=root
+User={{ nodejs_user }}
+Group={{ nodejs_group }}
 Environment=MYSQL_HOST={{ db_host }}
 Environment=MYSQL_USER={{ db_user }}
 Environment=MYSQL_PASSWORD={{ db_password }}

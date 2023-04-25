@@ -6,5 +6,5 @@ If you would like to deploy it on your own servers feel free to adjust variables
 
 The project is working, if I had more time I would:
 - fix the issue with mysql_db module on Amazon AMI
-- make the nodejs app run as dedicated user (non root)
+- secure mysql server instance
 - make it compatible with RedHat/Centos systems
