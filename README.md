@@ -4,4 +4,7 @@ If you would like to deploy it on your own servers feel free to adjust variables
 
 `ansible-playbook -i inventory run.yml`
 
-I'll polish the project a little bit tomorrow.
+The project is working, if I had more time I would:
+- fix the issue with mysql_db module on Amazon AMI
+- make the nodejs app run as dedicated user (non root)
+- make it compatible with RedHat/Centos systems
