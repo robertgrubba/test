@@ -17,10 +17,6 @@
   unarchive:
     src: app.zip
     dest: "{{ app_dir }}"
-- name: Create application db config
-  template:
-    src: mysql.js.j2
-    dest: "{{ app_dir }}/app/src/persistence/mysql.js"
 - name: Create application config
   template:
     src: index.js.j2
@@ -43,9 +39,3 @@
     daemon_reload: true
     enabled: true
   when: servicefile.changed
-#- name: Start the application
-#  command:
-#    chdir: "{{ app_dir }}/app/src/"
-#    cmd: "node {{ app_dir}}/app/src/index.js"
-#  async: 1000
-#  poll: 0
