@@ -14,20 +14,41 @@
     name: mariadb
     state: started
     enabled: yes
+- stat:
+    path: /opt/dbcreated
+  register: dbexists
 - name: create db
   raw: mysql -e "create database {{ db_name }} character set utf8 collate utf8_general_ci"
   ignore_errors: true
+  register: dbcreated
+  when: dbexists.stat.exists is defined and not dbexists.stat.exists
+- name: create checkstate flag file
+  file:
+    path: /opt/dbcreated
+    state: touch
+  when: dbcreated.changed
+
     #- name: create database
     #  mysql_db:
     #    name: "{{ db_name }}"
     #    state: present
     #    login_user: root
     #    login_password: ""
+- stat: 
+    path: /opt/dbusers
+  register: dbusers
 - name: configure mysql user
   raw: mysql -e "grant all privileges on {{ db_name }}.* to {{ db_user }}@{{ item }} identified by '{{ db_password }}'; flush privileges;"
   with_items:
     - "{{ groups['web'] }}"
     - "localhost"
+  register: dbusers
+  when: dbusers.stat.exists is defined and not dbusers.stat.exists
+- name: create checkstate flag users file
+  file:
+    path: /opt/dbusers
+    state: touch
+  when: dbusers.changed
     
       #- name: configure mysql user for app
       #  mysql_user:
