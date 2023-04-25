@@ -5,6 +5,6 @@ If you would like to deploy it on your own servers feel free to adjust variables
 `ansible-playbook -i inventory run.yml`
 
 The project is working, if I had more time I would:
-- fix the issue with mysql_db module on Amazon AMI
+- fix the issue with mysql_db module on Amazon Ubuntu AMI
 - secure mysql server instance
 - make it compatible with RedHat/Centos systems
