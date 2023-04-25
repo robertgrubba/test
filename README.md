@@ -8,3 +8,4 @@ The project is working, if I had more time I would:
 - fix the issue with mysql_db module on Amazon Ubuntu AMI
 - secure mysql server instance
 - make it compatible with RedHat/Centos systems
+- consider adding nginx as a reverse proxy if multiple nodes in web tier would be deployed
