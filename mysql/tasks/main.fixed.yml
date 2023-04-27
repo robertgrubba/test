@@ -1,0 +1,37 @@
+---
+# tasks file for mysql
+- name: install MariaDB server
+  apt:
+    name: mariadb-server
+    state: present
+    update_cache: true
+  with_items:
+    - mariadb-server
+    - mariadb-client
+    - python3-mysqldb
+    - python3-pymysql
+    - python3-pip
+- name: install pymysql
+  pip:
+    name: PyMySQL
+- name: start MariaDB
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+- name: create database
+  mysql_db:
+    name: "{{ db_name }}"
+    state: present
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+- name: configure mysql user for app
+  mysql_user:
+    name: "{{ db_user }}"
+    password: "{{ db_password }}"
+    priv: "{{ db_name }}.*:ALL"
+    host: "{{ item }}"
+    state: present
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  with_items:
+    - "{{ groups['web'] }}"
+    - "localhost"
